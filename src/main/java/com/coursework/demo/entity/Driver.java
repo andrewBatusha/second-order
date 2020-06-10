@@ -26,7 +26,7 @@ public class Driver implements Serializable {
 
     @OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
     @JoinColumn(name = "position_id")
-    private Position position;
+    private Licence licence;
 
     @OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
     @JoinColumn(name = "passport_id")
