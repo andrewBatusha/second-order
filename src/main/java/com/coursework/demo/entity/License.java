@@ -15,8 +15,8 @@ import java.io.Serializable;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "licences")
-public class Licence implements Serializable {
+@Table(name = "licenses")
+public class License implements Serializable {
 
     @Id
     @GeneratedValue

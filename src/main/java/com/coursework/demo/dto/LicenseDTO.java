@@ -4,7 +4,7 @@ import com.coursework.demo.entity.enums.LicenseStatus;
 import lombok.Data;
 
 @Data
-public class LicenceDTO {
+public class LicenseDTO {
     private long id;
 
     private String licenceId;
