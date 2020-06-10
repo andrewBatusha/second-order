@@ -31,8 +31,8 @@ public class Bus implements Serializable {
     private int capacity;
 
     @OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
-    @JoinColumn(name = "engineer_id")
-    private Engineer engineer;
+    @JoinColumn(name = "driver_id")
+    private Driver driver;
 
     @Enumerated(EnumType.STRING)
     private BusCondition status;
