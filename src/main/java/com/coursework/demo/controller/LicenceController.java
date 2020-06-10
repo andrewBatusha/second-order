@@ -2,7 +2,7 @@ package com.coursework.demo.controller;
 
 import com.coursework.demo.dto.LicenseDTO;
 import com.coursework.demo.entity.License;
-import com.coursework.demo.mapper.LicenseMapper;
+import com.coursework.demo.mapper.LicenсeMapper;
 import com.coursework.demo.service.LicenseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,41 +26,41 @@ import java.util.List;
 public class LicenceController {
 
     private final LicenseService licenseService;
-    private final LicenseMapper licenseMapper;
+    private final LicenсeMapper licenсeMapper;
 
     @Autowired
-    public LicenceController(LicenseService licenseService, LicenseMapper licenseMapper) {
+    public LicenceController(LicenseService licenseService, LicenсeMapper licenсeMapper) {
         this.licenseService = licenseService;
-        this.licenseMapper = licenseMapper;
+        this.licenсeMapper = licenсeMapper;
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get licence info by id")
     public ResponseEntity<LicenseDTO> get(@PathVariable("id") long id){
         License license = licenseService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(licenseMapper.convertToDto(license));
+        return ResponseEntity.status(HttpStatus.OK).body(licenсeMapper.convertToDto(license));
     }
 
 
     @GetMapping
     @ApiOperation(value = "Get the list of all licences")
     public ResponseEntity<List<LicenseDTO>> list() {
-        return ResponseEntity.ok().body(licenseMapper.convertToDtoList(licenseService.getAll()));
+        return ResponseEntity.ok().body(licenсeMapper.convertToDtoList(licenseService.getAll()));
     }
 
 
     @PostMapping
     @ApiOperation(value = "Create new licence")
     public ResponseEntity<LicenseDTO> save(@RequestBody LicenseDTO licenseDTO) {
-        License license = licenseService.save(licenseMapper.convertToEntity(licenseDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(licenseMapper.convertToDto(license));
+        License license = licenseService.save(licenсeMapper.convertToEntity(licenseDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(licenсeMapper.convertToDto(license));
     }
 
     @PutMapping
     @ApiOperation(value = "Update existing licence by id")
     public ResponseEntity<LicenseDTO> update(@RequestBody LicenseDTO licenseDTO) {
-        License license = licenseService.update(licenseMapper.convertToEntity(licenseDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(licenseMapper.convertToDto(license));
+        License license = licenseService.update(licenсeMapper.convertToEntity(licenseDTO));
+        return ResponseEntity.status(HttpStatus.OK).body(licenсeMapper.convertToDto(license));
     }
 
     @DeleteMapping("/{id}")

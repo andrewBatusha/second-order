@@ -36,7 +36,7 @@ public class EngineerController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get brigade info by id")
-    public ResponseEntity<EngineerDTO> get(@PathVariable("id") long id){
+    public ResponseEntity<EngineerDTO> get(@PathVariable("id") long id) {
         Engineer engineer = engineerService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(engineerMapper.convertToDto(engineer));
     }
@@ -65,7 +65,7 @@ public class EngineerController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete brigade by id")
-    public ResponseEntity delete(@PathVariable("id") long id){
+    public ResponseEntity delete(@PathVariable("id") long id) {
         Engineer engineer = engineerService.getById(id);
         engineerService.delete(engineer);
         return ResponseEntity.status(HttpStatus.OK).build();
