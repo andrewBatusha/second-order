@@ -12,6 +12,4 @@ public class DriverDTO {
     private Licence licence;
 
     private Passport passport;
-
-    private Engineer engineer;
 }

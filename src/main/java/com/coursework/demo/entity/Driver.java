@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -31,8 +30,4 @@ public class Driver implements Serializable {
     @OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
     @JoinColumn(name = "passport_id")
     private Passport passport;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "engineer_id")
-    private Engineer engineer;
 }

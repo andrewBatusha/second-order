@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -36,4 +37,8 @@ public class Bus implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private BusCondition status;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "engineer_id")
+    private Engineer engineer;
 }
