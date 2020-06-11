@@ -1,6 +1,6 @@
 package com.coursework.demo.dto;
 
-import com.coursework.demo.entity.License;
+import com.coursework.demo.entity.DriverLicense;
 import com.coursework.demo.entity.Passport;
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
 public class DriverDTO {
     private long id;
 
-    private License license;
+    private DriverLicense driverLicense;
 
     private Passport passport;
 }
