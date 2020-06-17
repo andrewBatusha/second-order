@@ -35,7 +35,7 @@ public class EngineerController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "Get brigade info by id")
+    @ApiOperation(value = "Get engineer info by id")
     public ResponseEntity<EngineerDTO> get(@PathVariable("id") long id) {
         Engineer engineer = engineerService.getById(id);
         return ResponseEntity.status(HttpStatus.OK).body(engineerMapper.convertToDto(engineer));
@@ -43,28 +43,28 @@ public class EngineerController {
 
 
     @GetMapping
-    @ApiOperation(value = "Get the list of all brigades")
+    @ApiOperation(value = "Get the list of all engineers")
     public ResponseEntity<List<EngineerDTO>> list() {
         return ResponseEntity.ok().body(engineerMapper.convertToDtoList(engineerService.getAll()));
     }
 
 
     @PostMapping
-    @ApiOperation(value = "Create new brigade")
+    @ApiOperation(value = "Create new engineer")
     public ResponseEntity<EngineerDTO> save(@RequestBody EngineerDTO engineerDTO) {
         Engineer engineer = engineerService.save(engineerMapper.convertToEntity(engineerDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(engineerMapper.convertToDto(engineer));
     }
 
     @PutMapping
-    @ApiOperation(value = "Update existing brigade by id")
+    @ApiOperation(value = "Update existing engineer by id")
     public ResponseEntity<EngineerDTO> update(@RequestBody EngineerDTO engineerDTO) {
         Engineer engineer = engineerService.update(engineerMapper.convertToEntity(engineerDTO));
         return ResponseEntity.status(HttpStatus.OK).body(engineerMapper.convertToDto(engineer));
     }
 
     @DeleteMapping("/{id}")
-    @ApiOperation(value = "Delete brigade by id")
+    @ApiOperation(value = "Delete engineer by id")
     public ResponseEntity delete(@PathVariable("id") long id) {
         Engineer engineer = engineerService.getById(id);
         engineerService.delete(engineer);

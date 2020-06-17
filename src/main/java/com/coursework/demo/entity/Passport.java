@@ -37,7 +37,7 @@ public class Passport implements Serializable {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    @Column(name = "passport_id")
+    @Column(name = "passport_number")
     private String passportId;
 
 }
