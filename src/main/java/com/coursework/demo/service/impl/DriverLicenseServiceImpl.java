@@ -4,6 +4,8 @@ import com.coursework.demo.entity.DriverLicense;
 import com.coursework.demo.repository.DriverLicenseRepository;
 import com.coursework.demo.service.DriverLicenseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,8 +28,8 @@ public class DriverLicenseServiceImpl implements DriverLicenseService {
     }
 
     @Override
-    public List<DriverLicense> getAll() {
-        return (List<DriverLicense>) driverLicenseRepository.findAll();
+    public List<DriverLicense> getAll(Pageable pageable) {
+        return driverLicenseRepository.findAll(pageable).getContent();
     }
 
     @Override

@@ -7,6 +7,9 @@ import com.coursework.demo.service.StationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,8 +48,8 @@ public class StationController {
 
     @GetMapping
     @ApiOperation(value = "Get the list of all stations")
-    public ResponseEntity<List<StationDTO>> list() {
-        return ResponseEntity.ok().body(stationMapper.convertToDtoList(stationService.getAll()));
+    public ResponseEntity<List<StationDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok().body(stationMapper.convertToDtoList(stationService.getAll(pageable)));
     }
 
 

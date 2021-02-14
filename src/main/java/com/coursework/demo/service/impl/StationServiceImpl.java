@@ -4,6 +4,8 @@ import com.coursework.demo.entity.Station;
 import com.coursework.demo.repository.StationRepository;
 import com.coursework.demo.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,8 +28,8 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public List<Station> getAll() {
-        return (List<Station>) stationRepository.findAll();
+    public List<Station> getAll(Pageable pageable) {
+        return stationRepository.findAll(pageable).getContent();
     }
 
     @Override

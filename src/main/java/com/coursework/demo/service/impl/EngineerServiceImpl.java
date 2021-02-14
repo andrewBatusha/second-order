@@ -4,6 +4,8 @@ import com.coursework.demo.entity.Engineer;
 import com.coursework.demo.repository.EngineerRepository;
 import com.coursework.demo.service.EngineerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,8 +28,8 @@ public class EngineerServiceImpl implements EngineerService {
     }
 
     @Override
-    public List<Engineer> getAll() {
-        return (List<Engineer>) engineerRepository.findAll();
+    public List<Engineer> getAll(Pageable pageable) {
+        return engineerRepository.findAll(pageable).getContent();
     }
 
     @Override

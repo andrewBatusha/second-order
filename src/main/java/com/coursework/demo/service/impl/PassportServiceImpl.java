@@ -4,6 +4,8 @@ import com.coursework.demo.entity.Passport;
 import com.coursework.demo.repository.PassportRepository;
 import com.coursework.demo.service.PassportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,8 +28,8 @@ public class PassportServiceImpl implements PassportService {
     }
 
     @Override
-    public List<Passport> getAll() {
-        return (List<Passport>) passportRepository.findAll();
+    public List<Passport> getAll(Pageable pageable) {
+        return passportRepository.findAll(pageable).getContent();
     }
 
     @Override

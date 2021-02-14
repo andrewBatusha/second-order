@@ -4,6 +4,8 @@ import com.coursework.demo.entity.Ticket;
 import com.coursework.demo.repository.TicketRepository;
 import com.coursework.demo.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,8 +28,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> getAll() {
-        return (List<Ticket>) ticketRepository.findAll();
+    public List<Ticket> getAll(Pageable pageable) {
+        return ticketRepository.findAll(pageable).getContent();
     }
 
     @Override

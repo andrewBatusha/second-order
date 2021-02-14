@@ -7,6 +7,9 @@ import com.coursework.demo.service.TicketService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,8 +47,8 @@ public class TicketController {
 
     @GetMapping
     @ApiOperation(value = "Get the list of all tickets")
-    public ResponseEntity<List<TicketDTO>> list() {
-        return ResponseEntity.ok().body(ticketMapper.convertToDtoList(ticketService.getAll()));
+    public ResponseEntity<List<TicketDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok().body(ticketMapper.convertToDtoList(ticketService.getAll(pageable)));
     }
 
 

@@ -4,6 +4,8 @@ import com.coursework.demo.entity.Route;
 import com.coursework.demo.repository.RouteRepository;
 import com.coursework.demo.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,8 +28,8 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Route> getAll() {
-        return (List<Route>) routeRepository.findAll();
+    public List<Route> getAll(Pageable pageable) {
+        return routeRepository.findAll(pageable).getContent();
     }
 
     @Override

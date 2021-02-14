@@ -7,6 +7,9 @@ import com.coursework.demo.service.PassportService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,8 +47,8 @@ public class PassportController {
 
     @GetMapping
     @ApiOperation(value = "Get the list of all passports")
-    public ResponseEntity<List<PassportDTO>> list() {
-        return ResponseEntity.ok().body(passportMapper.convertToDtoList(passportService.getAll()));
+    public ResponseEntity<List<PassportDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok().body(passportMapper.convertToDtoList(passportService.getAll(pageable)));
     }
 
 
