@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Station API")
-@RequestMapping("/stations")
+@RequestMapping("v1/stations")
 public class StationController {
 
     private final StationService stationService;
@@ -72,6 +72,6 @@ public class StationController {
     public ResponseEntity delete(@PathVariable("id") long id){
         Station station = stationService.getById(id);
         stationService.delete(station);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

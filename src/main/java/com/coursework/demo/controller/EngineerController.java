@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Engineer API")
-@RequestMapping("/engineers")
+@RequestMapping("v1/engineers")
 public class EngineerController {
 
     private final EngineerService engineerService;
@@ -71,7 +71,7 @@ public class EngineerController {
     public ResponseEntity delete(@PathVariable("id") long id) {
         Engineer engineer = engineerService.getById(id);
         engineerService.delete(engineer);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 

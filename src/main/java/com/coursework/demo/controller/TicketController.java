@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Ticket API")
-@RequestMapping("/tickets")
+@RequestMapping("v1/tickets")
 public class TicketController {
 
     private final TicketService ticketService;
@@ -71,6 +71,6 @@ public class TicketController {
     public ResponseEntity delete(@PathVariable("id") long id){
         Ticket ticket = ticketService.getById(id);
         ticketService.delete(ticket);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

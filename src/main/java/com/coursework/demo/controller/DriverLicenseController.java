@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Licence API")
-@RequestMapping("/licenses")
+@RequestMapping("v1/licenses")
 public class DriverLicenseController {
 
     private final DriverLicenseService driverLicenseService;
@@ -71,6 +71,6 @@ public class DriverLicenseController {
     public ResponseEntity delete(@PathVariable("id") long id){
         DriverLicense driverLicense = driverLicenseService.getById(id);
         driverLicenseService.delete(driverLicense);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

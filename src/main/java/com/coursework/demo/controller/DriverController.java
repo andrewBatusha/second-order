@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Driver API")
-@RequestMapping("/drivers")
+@RequestMapping("v1/drivers")
 public class DriverController {
 
     private final DriverService driverService;
@@ -72,6 +72,6 @@ public class DriverController {
     public ResponseEntity delete(@PathVariable("id") long id){
         Driver driver = driverService.getById(id);
         driverService.delete(driver);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Route API")
-@RequestMapping("/routes")
+@RequestMapping("v1/routes")
 public class RouteController {
 
     private final RouteService routeService;
@@ -71,6 +71,6 @@ public class RouteController {
     public ResponseEntity delete(@PathVariable("id") long id){
         Route route = routeService.getById(id);
         routeService.delete(route);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

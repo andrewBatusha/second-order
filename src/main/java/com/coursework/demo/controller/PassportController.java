@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Passport API")
-@RequestMapping("/passports")
+@RequestMapping("v1/passports")
 public class PassportController {
 
     private final PassportService passportService;
@@ -71,6 +71,6 @@ public class PassportController {
     public ResponseEntity delete(@PathVariable("id") long id){
         Passport passport = passportService.getById(id);
         passportService.delete(passport);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
