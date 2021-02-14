@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @Api(tags = "Station API")
@@ -42,7 +46,7 @@ public class StationController {
     @ApiOperation(value = "Get station info by id")
     public ResponseEntity<StationDTO> get(@PathVariable("id") long id){
         Station station = stationService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(stationMapper.convertToDto(station));
+        return ResponseEntity.status(OK).body(stationMapper.convertToDto(station));
     }
 
 
@@ -57,14 +61,18 @@ public class StationController {
     @ApiOperation(value = "Create new station")
     public ResponseEntity<StationDTO> save(@RequestBody StationDTO stationDTO) {
         Station station = stationService.save(stationMapper.convertToEntity(stationDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(stationMapper.convertToDto(station));
+        return ResponseEntity.status(CREATED).body(stationMapper.convertToDto(station));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update existing station by id")
-    public ResponseEntity<StationDTO> update(@RequestBody StationDTO stationDTO) {
-        Station station = stationService.update(stationMapper.convertToEntity(stationDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(stationMapper.convertToDto(station));
+    public ResponseEntity<StationDTO> update(@PathVariable("id") long id, @RequestBody StationDTO stationDTO) {
+        if (id == stationDTO.getId()) {
+            Station station = stationService.update(stationMapper.convertToEntity(stationDTO));
+            return ResponseEntity.status(OK).body(stationMapper.convertToDto(station));
+        } else {
+            return ResponseEntity.status(BAD_REQUEST).build();
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -72,6 +80,6 @@ public class StationController {
     public ResponseEntity delete(@PathVariable("id") long id){
         Station station = stationService.getById(id);
         stationService.delete(station);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }
