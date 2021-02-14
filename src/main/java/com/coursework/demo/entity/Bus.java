@@ -1,7 +1,6 @@
 package com.coursework.demo.entity;
 
 import com.coursework.demo.entity.enums.BusCondition;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
@@ -10,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,14 +18,13 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Data
 @NoArgsConstructor
 @Table(name = "buses")
 public class Bus implements Serializable {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 

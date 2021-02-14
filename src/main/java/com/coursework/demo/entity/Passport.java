@@ -21,8 +21,8 @@ import java.io.Serializable;
 public class Passport implements Serializable {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 

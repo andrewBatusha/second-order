@@ -4,7 +4,6 @@ import com.coursework.demo.entity.enums.LuggageType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,9 +21,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Table(name = "luggage")
 public class Luggage implements Serializable {
+
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 
