@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @Api(tags = "Passenger API")
@@ -39,9 +43,9 @@ public class PassengerController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get passenger info by id")
-    public ResponseEntity<PassengerDTO> get(@PathVariable("id") long id){
+    public ResponseEntity<PassengerDTO> get(@PathVariable("id") long id) {
         Passenger passenger = passengerService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(passengerMapper.convertToDto(passenger));
+        return ResponseEntity.status(OK).body(passengerMapper.convertToDto(passenger));
     }
 
 
@@ -56,21 +60,25 @@ public class PassengerController {
     @ApiOperation(value = "Create new passenger")
     public ResponseEntity<PassengerDTO> save(@RequestBody PassengerDTO passengerDTO) {
         Passenger passenger = passengerService.save(passengerMapper.convertToEntity(passengerDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(passengerMapper.convertToDto(passenger));
+        return ResponseEntity.status(CREATED).body(passengerMapper.convertToDto(passenger));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update existing passenger by id")
-    public ResponseEntity<PassengerDTO> update(@RequestBody PassengerDTO passengerDTO) {
-        Passenger passenger = passengerService.update(passengerMapper.convertToEntity(passengerDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(passengerMapper.convertToDto(passenger));
+    public ResponseEntity<PassengerDTO> update(@PathVariable("id") long id, @RequestBody PassengerDTO passengerDTO) {
+        if (id == passengerDTO.getId()) {
+            Passenger passenger = passengerService.update(passengerMapper.convertToEntity(passengerDTO));
+            return ResponseEntity.status(OK).body(passengerMapper.convertToDto(passenger));
+        } else {
+            return ResponseEntity.status(BAD_REQUEST).build();
+        }
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete passenger by id")
-    public ResponseEntity delete(@PathVariable("id") long id){
+    public ResponseEntity delete(@PathVariable("id") long id) {
         Passenger passenger = passengerService.getById(id);
         passengerService.delete(passenger);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }

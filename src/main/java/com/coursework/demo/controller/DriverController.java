@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @Api(tags = "Driver API")
@@ -39,9 +43,9 @@ public class DriverController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get driver info by id")
-    public ResponseEntity<DriverDTO> get(@PathVariable("id") long id){
+    public ResponseEntity<DriverDTO> get(@PathVariable("id") long id) {
         Driver driver = driverService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(driverMapper.convertToDto(driver));
+        return ResponseEntity.status(OK).body(driverMapper.convertToDto(driver));
     }
 
 
@@ -56,22 +60,26 @@ public class DriverController {
     @ApiOperation(value = "Create new driver")
     public ResponseEntity<DriverDTO> save(@RequestBody DriverDTO driverDTO) {
         Driver driver = driverService.save(driverMapper.convertToEntity(driverDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(driverMapper.convertToDto(driver));
+        return ResponseEntity.status(CREATED).body(driverMapper.convertToDto(driver));
 
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update existing driver by id")
-    public ResponseEntity<DriverDTO> update(@RequestBody DriverDTO driverDTO) {
-        Driver driver = driverService.update(driverMapper.convertToEntity(driverDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(driverMapper.convertToDto(driver));
+    public ResponseEntity<DriverDTO> update(@PathVariable("id") long id, @RequestBody DriverDTO driverDTO) {
+        if (id == driverDTO.getId()) {
+            Driver driver = driverService.update(driverMapper.convertToEntity(driverDTO));
+            return ResponseEntity.status(OK).body(driverMapper.convertToDto(driver));
+        } else {
+            return ResponseEntity.status(BAD_REQUEST).build();
+        }
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete driver by id")
-    public ResponseEntity delete(@PathVariable("id") long id){
+    public ResponseEntity delete(@PathVariable("id") long id) {
         Driver driver = driverService.getById(id);
         driverService.delete(driver);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }

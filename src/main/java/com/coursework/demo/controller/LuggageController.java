@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @Api(tags = "Luggage API")
@@ -39,9 +43,9 @@ public class LuggageController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get luggage info by id")
-    public ResponseEntity<LuggageDTO> get(@PathVariable("id") long id){
+    public ResponseEntity<LuggageDTO> get(@PathVariable("id") long id) {
         Luggage luggage = luggageService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(luggageMapper.convertToDto(luggage));
+        return ResponseEntity.status(OK).body(luggageMapper.convertToDto(luggage));
     }
 
 
@@ -56,21 +60,25 @@ public class LuggageController {
     @ApiOperation(value = "Create new luggage")
     public ResponseEntity<LuggageDTO> save(@RequestBody LuggageDTO luggageDTO) {
         Luggage luggage = luggageService.save(luggageMapper.convertToEntity(luggageDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(luggageMapper.convertToDto(luggage));
+        return ResponseEntity.status(CREATED).body(luggageMapper.convertToDto(luggage));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update existing luggage by id")
-    public ResponseEntity<LuggageDTO> update(@RequestBody LuggageDTO luggageDTO) {
-        Luggage luggage = luggageService.update(luggageMapper.convertToEntity(luggageDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(luggageMapper.convertToDto(luggage));
+    public ResponseEntity<LuggageDTO> update(@PathVariable("id") long id, @RequestBody LuggageDTO luggageDTO) {
+        if (id == luggageDTO.getId()) {
+            Luggage luggage = luggageService.update(luggageMapper.convertToEntity(luggageDTO));
+            return ResponseEntity.status(OK).body(luggageMapper.convertToDto(luggage));
+        } else {
+            return ResponseEntity.status(BAD_REQUEST).build();
+        }
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete luggage by id")
-    public ResponseEntity delete(@PathVariable("id") long id){
+    public ResponseEntity delete(@PathVariable("id") long id) {
         Luggage luggage = luggageService.getById(id);
         luggageService.delete(luggage);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }

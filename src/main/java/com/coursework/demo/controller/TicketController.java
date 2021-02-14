@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @Api(tags = "Ticket API")
@@ -41,7 +45,7 @@ public class TicketController {
     @ApiOperation(value = "Get ticket info by id")
     public ResponseEntity<TicketDTO> get(@PathVariable("id") long id){
         Ticket ticket = ticketService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(ticketMapper.convertToDto(ticket));
+        return ResponseEntity.status(OK).body(ticketMapper.convertToDto(ticket));
     }
 
 
@@ -56,14 +60,18 @@ public class TicketController {
     @ApiOperation(value = "Create new ticket")
     public ResponseEntity<TicketDTO> save(@RequestBody TicketDTO ticketDTO) {
         Ticket ticket = ticketService.save(ticketMapper.convertToEntity(ticketDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(ticketMapper.convertToDto(ticket));
+        return ResponseEntity.status(CREATED).body(ticketMapper.convertToDto(ticket));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update existing ticket by id")
-    public ResponseEntity<TicketDTO> update(@RequestBody TicketDTO ticketDTO) {
-        Ticket ticket = ticketService.update(ticketMapper.convertToEntity(ticketDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(ticketMapper.convertToDto(ticket));
+    public ResponseEntity<TicketDTO> update(@PathVariable("id") long id, @RequestBody TicketDTO ticketDTO) {
+        if (id == ticketDTO.getId()) {
+            Ticket ticket = ticketService.update(ticketMapper.convertToEntity(ticketDTO));
+            return ResponseEntity.status(OK).body(ticketMapper.convertToDto(ticket));
+        } else {
+            return ResponseEntity.status(BAD_REQUEST).build();
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -71,6 +79,6 @@ public class TicketController {
     public ResponseEntity delete(@PathVariable("id") long id){
         Ticket ticket = ticketService.getById(id);
         ticketService.delete(ticket);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }

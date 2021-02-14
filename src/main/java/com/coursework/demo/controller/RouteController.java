@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @Api(tags = "Route API")
@@ -39,9 +43,9 @@ public class RouteController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get route info by id")
-    public ResponseEntity<RouteDTO> get(@PathVariable("id") long id){
+    public ResponseEntity<RouteDTO> get(@PathVariable("id") long id) {
         Route route = routeService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(routeMapper.convertToDto(route));
+        return ResponseEntity.status(OK).body(routeMapper.convertToDto(route));
     }
 
 
@@ -56,21 +60,25 @@ public class RouteController {
     @ApiOperation(value = "Create new route")
     public ResponseEntity<RouteDTO> save(@RequestBody RouteDTO routeDTO) {
         Route route = routeService.save(routeMapper.convertToEntity(routeDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(routeMapper.convertToDto(route));
+        return ResponseEntity.status(CREATED).body(routeMapper.convertToDto(route));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update existing route by id")
-    public ResponseEntity<RouteDTO> update(@RequestBody RouteDTO routeDTO) {
-        Route route = routeService.update(routeMapper.convertToEntity(routeDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(routeMapper.convertToDto(route));
+    public ResponseEntity<RouteDTO> update(@PathVariable("id") long id, @RequestBody RouteDTO routeDTO) {
+        if (id == routeDTO.getId()) {
+            Route route = routeService.update(routeMapper.convertToEntity(routeDTO));
+            return ResponseEntity.status(OK).body(routeMapper.convertToDto(route));
+        } else {
+            return ResponseEntity.status(BAD_REQUEST).build();
+        }
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete route by id")
-    public ResponseEntity delete(@PathVariable("id") long id){
+    public ResponseEntity delete(@PathVariable("id") long id) {
         Route route = routeService.getById(id);
         routeService.delete(route);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @Api(tags = "Passport API")
@@ -39,9 +43,9 @@ public class PassportController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get passport info by id")
-    public ResponseEntity<PassportDTO> get(@PathVariable("id") long id){
+    public ResponseEntity<PassportDTO> get(@PathVariable("id") long id) {
         Passport passport = passportService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(passportMapper.convertToDto(passport));
+        return ResponseEntity.status(OK).body(passportMapper.convertToDto(passport));
     }
 
 
@@ -56,21 +60,25 @@ public class PassportController {
     @ApiOperation(value = "Create new passport")
     public ResponseEntity<PassportDTO> save(@RequestBody PassportDTO passportDTO) {
         Passport passport = passportService.save(passportMapper.convertToEntity(passportDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(passportMapper.convertToDto(passport));
+        return ResponseEntity.status(CREATED).body(passportMapper.convertToDto(passport));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update existing passport by id")
-    public ResponseEntity<PassportDTO> update(@RequestBody PassportDTO passportDTO) {
-        Passport passport = passportService.update(passportMapper.convertToEntity(passportDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(passportMapper.convertToDto(passport));
+    public ResponseEntity<PassportDTO> update(@PathVariable("id") long id, @RequestBody PassportDTO passportDTO) {
+        if (id == passportDTO.getId()) {
+            Passport passport = passportService.update(passportMapper.convertToEntity(passportDTO));
+            return ResponseEntity.status(OK).body(passportMapper.convertToDto(passport));
+        } else {
+            return ResponseEntity.status(BAD_REQUEST).build();
+        }
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete passport by id")
-    public ResponseEntity delete(@PathVariable("id") long id){
+    public ResponseEntity delete(@PathVariable("id") long id) {
         Passport passport = passportService.getById(id);
         passportService.delete(passport);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }
