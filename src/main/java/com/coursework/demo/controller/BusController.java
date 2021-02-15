@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @Api(tags = "Bus API")
@@ -39,9 +43,9 @@ public class BusController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Get bus info by id")
-    public ResponseEntity<BusDTO> get(@PathVariable("id") long id){
+    public ResponseEntity<BusDTO> get(@PathVariable("id") long id) {
         Bus bus = busService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(busMapper.convertToDto(bus));
+        return ResponseEntity.status(OK).body(busMapper.convertToDto(bus));
     }
 
 
@@ -56,21 +60,25 @@ public class BusController {
     @ApiOperation(value = "Create new bus")
     public ResponseEntity<BusDTO> save(@RequestBody BusDTO passportDTO) {
         Bus bus = busService.save(busMapper.convertToEntity(passportDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(busMapper.convertToDto(bus));
+        return ResponseEntity.status(CREATED).body(busMapper.convertToDto(bus));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update existing bus by id")
-    public ResponseEntity<BusDTO> update(@RequestBody BusDTO busDTO) {
-        Bus bus = busService.update(busMapper.convertToEntity(busDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(busMapper.convertToDto(bus));
+    public ResponseEntity<BusDTO> update(@PathVariable("id") long id, @RequestBody BusDTO busDTO) {
+        if (id == busDTO.getId()) {
+            Bus bus = busService.update(busMapper.convertToEntity(busDTO));
+            return ResponseEntity.status(OK).body(busMapper.convertToDto(bus));
+        } else {
+            return ResponseEntity.status(BAD_REQUEST).build();
+        }
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete bus by id")
-    public ResponseEntity delete(@PathVariable("id") long id){
+    public ResponseEntity delete(@PathVariable("id") long id) {
         Bus bus = busService.getById(id);
         busService.delete(bus);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 }

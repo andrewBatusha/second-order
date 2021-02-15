@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @Api(tags = "Engineer API")
@@ -41,7 +45,7 @@ public class EngineerController {
     @ApiOperation(value = "Get engineer info by id")
     public ResponseEntity<EngineerDTO> get(@PathVariable("id") long id) {
         Engineer engineer = engineerService.getById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(engineerMapper.convertToDto(engineer));
+        return ResponseEntity.status(OK).body(engineerMapper.convertToDto(engineer));
     }
 
 
@@ -56,14 +60,18 @@ public class EngineerController {
     @ApiOperation(value = "Create new engineer")
     public ResponseEntity<EngineerDTO> save(@RequestBody EngineerDTO engineerDTO) {
         Engineer engineer = engineerService.save(engineerMapper.convertToEntity(engineerDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).body(engineerMapper.convertToDto(engineer));
+        return ResponseEntity.status(CREATED).body(engineerMapper.convertToDto(engineer));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ApiOperation(value = "Update existing engineer by id")
-    public ResponseEntity<EngineerDTO> update(@RequestBody EngineerDTO engineerDTO) {
-        Engineer engineer = engineerService.update(engineerMapper.convertToEntity(engineerDTO));
-        return ResponseEntity.status(HttpStatus.OK).body(engineerMapper.convertToDto(engineer));
+    public ResponseEntity<EngineerDTO> update(@PathVariable("id") long id, @RequestBody EngineerDTO engineerDTO) {
+        if (id == engineerDTO.getId()) {
+            Engineer engineer = engineerService.update(engineerMapper.convertToEntity(engineerDTO));
+            return ResponseEntity.status(OK).body(engineerMapper.convertToDto(engineer));
+        } else {
+            return ResponseEntity.status(BAD_REQUEST).build();
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -71,7 +79,7 @@ public class EngineerController {
     public ResponseEntity delete(@PathVariable("id") long id) {
         Engineer engineer = engineerService.getById(id);
         engineerService.delete(engineer);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(NO_CONTENT).build();
     }
 
 
