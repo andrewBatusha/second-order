@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,11 +23,11 @@ public class Driver implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
+    @OneToOne
     @JoinColumn(name = "driver_licenses_id")
     private DriverLicense driverLicense;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "passport_id")
     private Passport passport;
 }
