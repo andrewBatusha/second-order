@@ -1,5 +1,6 @@
 package com.coursework.demo.controller;
 
+import com.coursework.demo.dto.AddLuggageDTO;
 import com.coursework.demo.dto.LuggageDTO;
 import com.coursework.demo.entity.Luggage;
 import com.coursework.demo.mapper.LuggageMapper;
@@ -50,7 +51,7 @@ public class LuggageController {
 
 
     @GetMapping
-    @ApiOperation(value = "Get the list of all luggages")
+    @ApiOperation(value = "Get the list of all luggage")
     public ResponseEntity<List<LuggageDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(luggageMapper.convertToDtoList(luggageService.getAll(pageable)));
     }
@@ -58,8 +59,8 @@ public class LuggageController {
 
     @PostMapping
     @ApiOperation(value = "Create new luggage")
-    public ResponseEntity<LuggageDTO> save(@RequestBody LuggageDTO luggageDTO) {
-        Luggage luggage = luggageService.save(luggageMapper.convertToEntity(luggageDTO));
+    public ResponseEntity<LuggageDTO> save(@RequestBody AddLuggageDTO addLuggageDTO) {
+        Luggage luggage = luggageService.save(luggageMapper.convertToEntity(addLuggageDTO));
         return ResponseEntity.status(CREATED).body(luggageMapper.convertToDto(luggage));
     }
 

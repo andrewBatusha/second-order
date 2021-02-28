@@ -3,9 +3,7 @@ package com.coursework.demo.dto;
 import lombok.Data;
 
 @Data
-public class PassengerDTO {
-    private long id;
-
+public class AddPassengerDTO {
     private String name;
 
     private String email;
@@ -13,5 +11,4 @@ public class PassengerDTO {
     private String surname;
 
     private String patronymic;
-
 }

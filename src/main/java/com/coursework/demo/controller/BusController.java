@@ -1,5 +1,6 @@
 package com.coursework.demo.controller;
 
+import com.coursework.demo.dto.AddBusDTO;
 import com.coursework.demo.dto.BusDTO;
 import com.coursework.demo.entity.Bus;
 import com.coursework.demo.mapper.BusMapper;
@@ -58,8 +59,8 @@ public class BusController {
 
     @PostMapping
     @ApiOperation(value = "Create new bus")
-    public ResponseEntity<BusDTO> save(@RequestBody BusDTO passportDTO) {
-        Bus bus = busService.save(busMapper.convertToEntity(passportDTO));
+    public ResponseEntity<BusDTO> save(@RequestBody AddBusDTO addBusDTO) {
+        Bus bus = busService.save(busMapper.convertToEntity(addBusDTO));
         return ResponseEntity.status(CREATED).body(busMapper.convertToDto(bus));
     }
 

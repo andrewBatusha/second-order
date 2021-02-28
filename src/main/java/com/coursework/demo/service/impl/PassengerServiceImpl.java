@@ -4,7 +4,6 @@ import com.coursework.demo.entity.Passenger;
 import com.coursework.demo.repository.PassengerRepository;
 import com.coursework.demo.service.PassengerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +45,10 @@ public class PassengerServiceImpl implements PassengerService {
     public Passenger delete(Passenger object) {
         passengerRepository.delete(object);
         return object;
+    }
+
+    @Override
+    public List<Passenger> getPassengersByRoute(Long id) {
+        return passengerRepository.getPassengersByRoute(id);
     }
 }

@@ -1,15 +1,18 @@
 package com.coursework.demo.controller;
 
+import com.coursework.demo.dto.AddRouteDTO;
 import com.coursework.demo.dto.RouteDTO;
 import com.coursework.demo.entity.Route;
 import com.coursework.demo.mapper.RouteMapper;
 import com.coursework.demo.service.RouteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -51,14 +56,24 @@ public class RouteController {
 
     @GetMapping
     @ApiOperation(value = "Get the list of all routes")
-    public ResponseEntity<List<RouteDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok().body(routeMapper.convertToDtoList(routeService.getAll(pageable)));
+    public ResponseEntity<List<RouteDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
+                                               @RequestParam(required = false, defaultValue = "") @ApiParam(
+                                                       value = "searching criteria of departure"
+                                               ) String from,
+                                               @RequestParam(required = false, defaultValue = "") @ApiParam(
+                                                       value = "searching criteria of destination"
+                                               ) String to,
+                                               @RequestParam(required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                               @ApiParam(
+                                                       value = "searching criteria of departure date"
+                                               ) LocalDate date) {
+        return ResponseEntity.ok().body(routeMapper.convertToDtoList(routeService.getAll(from, to, date, pageable)));
     }
 
 
     @PostMapping
     @ApiOperation(value = "Create new route")
-    public ResponseEntity<RouteDTO> save(@RequestBody RouteDTO routeDTO) {
+    public ResponseEntity<RouteDTO> save(@RequestBody AddRouteDTO routeDTO) {
         Route route = routeService.save(routeMapper.convertToEntity(routeDTO));
         return ResponseEntity.status(CREATED).body(routeMapper.convertToDto(route));
     }

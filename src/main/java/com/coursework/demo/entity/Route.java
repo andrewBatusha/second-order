@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -23,9 +24,9 @@ public class Route implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String departureDate;
+    private LocalDateTime departureDate;
 
-    private String destinationDate;
+    private LocalDateTime destinationDate;
 
     private String departure;
 

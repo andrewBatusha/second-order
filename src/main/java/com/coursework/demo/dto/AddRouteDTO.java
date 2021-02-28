@@ -8,8 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-public class RouteDTO {
-    private long id;
+public class AddRouteDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+2")
@@ -24,5 +23,4 @@ public class RouteDTO {
     private String destination;
 
     private Bus bus;
-
 }

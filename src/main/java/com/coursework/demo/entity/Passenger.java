@@ -22,6 +22,8 @@ public class Passenger implements Serializable {
 
     private String name;
 
+    private String email;
+
     private String surname;
 
     private String patronymic;

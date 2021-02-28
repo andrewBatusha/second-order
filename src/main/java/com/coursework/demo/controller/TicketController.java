@@ -1,5 +1,6 @@
 package com.coursework.demo.controller;
 
+import com.coursework.demo.dto.AddTicketDTO;
 import com.coursework.demo.dto.TicketDTO;
 import com.coursework.demo.entity.Ticket;
 import com.coursework.demo.mapper.TicketMapper;
@@ -58,8 +59,8 @@ public class TicketController {
 
     @PostMapping
     @ApiOperation(value = "Create new ticket")
-    public ResponseEntity<TicketDTO> save(@RequestBody TicketDTO ticketDTO) {
-        Ticket ticket = ticketService.save(ticketMapper.convertToEntity(ticketDTO));
+    public ResponseEntity<TicketDTO> save(@RequestBody AddTicketDTO addTicketDTO) {
+        Ticket ticket = ticketService.save(ticketMapper.convertToEntity(addTicketDTO));
         return ResponseEntity.status(CREATED).body(ticketMapper.convertToDto(ticket));
     }
 

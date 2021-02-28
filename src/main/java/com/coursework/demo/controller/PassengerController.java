@@ -1,5 +1,6 @@
 package com.coursework.demo.controller;
 
+import com.coursework.demo.dto.AddPassengerDTO;
 import com.coursework.demo.dto.PassengerDTO;
 import com.coursework.demo.entity.Passenger;
 import com.coursework.demo.mapper.PassengerMapper;
@@ -55,11 +56,16 @@ public class PassengerController {
         return ResponseEntity.ok().body(passengerMapper.convertToDtoList(passengerService.getAll(pageable)));
     }
 
+    @GetMapping("/routes/{id}")
+    @ApiOperation(value = "Get the list of all passengers in specific route")
+    public ResponseEntity<List<PassengerDTO>> list(@PathVariable("id") long id) {
+        return ResponseEntity.ok().body(passengerMapper.convertToDtoList(passengerService.getPassengersByRoute(id)));
+    }
 
     @PostMapping
     @ApiOperation(value = "Create new passenger")
-    public ResponseEntity<PassengerDTO> save(@RequestBody PassengerDTO passengerDTO) {
-        Passenger passenger = passengerService.save(passengerMapper.convertToEntity(passengerDTO));
+    public ResponseEntity<PassengerDTO> save(@RequestBody AddPassengerDTO addPassengerDTO) {
+        Passenger passenger = passengerService.save(passengerMapper.convertToEntity(addPassengerDTO));
         return ResponseEntity.status(CREATED).body(passengerMapper.convertToDto(passenger));
     }
 

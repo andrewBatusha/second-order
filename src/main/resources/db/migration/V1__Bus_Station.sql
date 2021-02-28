@@ -13,6 +13,7 @@ create table passengers
     id         serial not null
         constraint passengers_pkey
             primary key,
+    email      varchar(255),
     name       varchar(255),
     patronymic varchar(255),
     surname    varchar(255)
@@ -37,9 +38,9 @@ create table routes
         constraint routes_pkey
             primary key,
     departure        varchar(255),
-    departure_date   varchar(255),
+    departure_date   timestamp,
     destination      varchar(255),
-    destination_date varchar(255),
+    destination_date timestamp,
     bus_id           serial
         constraint fkfifby6x0g0k9rmd26mdmef3vt
             references buses

@@ -4,18 +4,28 @@ import com.coursework.demo.entity.Route;
 import com.coursework.demo.repository.RouteRepository;
 import com.coursework.demo.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
+
+import static com.coursework.demo.repository.specification.RouteSpecification.getData;
+import static com.coursework.demo.repository.specification.RouteSpecification.getDeparture;
+import static com.coursework.demo.repository.specification.RouteSpecification.getDestination;
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @Transactional
 @Service
 public class RouteServiceImpl implements RouteService {
 
     RouteRepository routeRepository;
+
+    @Override
+    public List<Route> getAll(Pageable pageable) {
+        return null;
+    }
 
     @Autowired
     public RouteServiceImpl(RouteRepository routeRepository) {
@@ -28,8 +38,10 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Route> getAll(Pageable pageable) {
-        return routeRepository.findAll(pageable).getContent();
+    public List<Route> getAll(String from, String to, LocalDate date, Pageable pageable) {
+        return routeRepository.findAll(
+                where(getDeparture(from)).and(getDestination(to).and(getData(date))),
+                pageable).getContent();
     }
 
     @Override
