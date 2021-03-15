@@ -22,11 +22,6 @@ public class RouteServiceImpl implements RouteService {
 
     RouteRepository routeRepository;
 
-    @Override
-    public List<Route> getAll(Pageable pageable) {
-        return null;
-    }
-
     @Autowired
     public RouteServiceImpl(RouteRepository routeRepository) {
         this.routeRepository = routeRepository;

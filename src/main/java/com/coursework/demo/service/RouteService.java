@@ -6,6 +6,14 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface RouteService extends BasicService<Route, Long>{
+public interface RouteService {
     List<Route> getAll(String from, String to, LocalDate date, Pageable pageable);
+
+    Route getById(Long id);
+
+    Route update(Route object);
+
+    Route save(Route object);
+
+    Route delete(Route object);
 }
