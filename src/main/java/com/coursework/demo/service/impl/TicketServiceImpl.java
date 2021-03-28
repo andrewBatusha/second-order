@@ -4,7 +4,6 @@ import com.coursework.demo.entity.Ticket;
 import com.coursework.demo.repository.TicketRepository;
 import com.coursework.demo.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +29,6 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> getAll(Pageable pageable) {
         return ticketRepository.findAll(pageable).getContent();
-    }
-
-    @Override
-    public Ticket update(Ticket object) {
-        return ticketRepository.save(object);
     }
 
     @Override

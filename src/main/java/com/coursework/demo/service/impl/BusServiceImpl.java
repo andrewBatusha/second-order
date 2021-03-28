@@ -4,7 +4,6 @@ import com.coursework.demo.entity.Bus;
 import com.coursework.demo.repository.BusRepository;
 import com.coursework.demo.service.BusService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +29,6 @@ public class BusServiceImpl implements BusService {
     @Override
     public List<Bus> getAll(Pageable pageable) {
         return busRepository.findAll(pageable).getContent();
-    }
-
-    @Override
-    public Bus update(Bus object) {
-        return busRepository.save(object);
     }
 
     @Override

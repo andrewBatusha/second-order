@@ -4,7 +4,6 @@ import com.coursework.demo.entity.Luggage;
 import com.coursework.demo.repository.LuggageRepository;
 import com.coursework.demo.service.LuggageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +29,6 @@ public class LuggageServiceImpl implements LuggageService {
     @Override
     public List<Luggage> getAll(Pageable pageable) {
         return luggageRepository.findAll(pageable).getContent();
-    }
-
-    @Override
-    public Luggage update(Luggage object) {
-        return luggageRepository.save(object);
     }
 
     @Override

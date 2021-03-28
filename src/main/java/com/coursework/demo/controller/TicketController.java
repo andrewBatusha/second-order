@@ -68,7 +68,7 @@ public class TicketController {
     @ApiOperation(value = "Update existing ticket by id")
     public ResponseEntity<TicketDTO> update(@PathVariable("id") long id, @RequestBody TicketDTO ticketDTO) {
         if (id == ticketDTO.getId()) {
-            Ticket ticket = ticketService.update(ticketMapper.convertToEntity(ticketDTO));
+            Ticket ticket = ticketService.save(ticketMapper.convertToEntity(ticketDTO));
             return ResponseEntity.status(OK).body(ticketMapper.convertToDto(ticket));
         } else {
             return ResponseEntity.status(BAD_REQUEST).build();

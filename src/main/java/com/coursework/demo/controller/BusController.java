@@ -68,7 +68,7 @@ public class BusController {
     @ApiOperation(value = "Update existing bus by id")
     public ResponseEntity<BusDTO> update(@PathVariable("id") long id, @RequestBody BusDTO busDTO) {
         if (id == busDTO.getId()) {
-            Bus bus = busService.update(busMapper.convertToEntity(busDTO));
+            Bus bus = busService.save(busMapper.convertToEntity(busDTO));
             return ResponseEntity.status(OK).body(busMapper.convertToDto(bus));
         } else {
             return ResponseEntity.status(BAD_REQUEST).build();

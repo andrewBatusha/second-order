@@ -68,7 +68,7 @@ public class LuggageController {
     @ApiOperation(value = "Update existing luggage by id")
     public ResponseEntity<LuggageDTO> update(@PathVariable("id") long id, @RequestBody LuggageDTO luggageDTO) {
         if (id == luggageDTO.getId()) {
-            Luggage luggage = luggageService.update(luggageMapper.convertToEntity(luggageDTO));
+            Luggage luggage = luggageService.save(luggageMapper.convertToEntity(luggageDTO));
             return ResponseEntity.status(OK).body(luggageMapper.convertToDto(luggage));
         } else {
             return ResponseEntity.status(BAD_REQUEST).build();

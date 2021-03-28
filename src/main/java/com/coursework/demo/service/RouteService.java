@@ -11,8 +11,6 @@ public interface RouteService {
 
     Route getById(Long id);
 
-    Route update(Route object);
-
     Route save(Route object);
 
     Route delete(Route object);

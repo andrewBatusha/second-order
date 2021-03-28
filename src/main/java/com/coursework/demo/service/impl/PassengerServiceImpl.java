@@ -32,11 +32,6 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public Passenger update(Passenger object) {
-        return passengerRepository.save(object);
-    }
-
-    @Override
     public Passenger save(Passenger object) {
         return passengerRepository.save(object);
     }

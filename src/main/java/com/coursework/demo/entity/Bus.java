@@ -1,6 +1,8 @@
 package com.coursework.demo.entity;
 
 import com.coursework.demo.entity.enums.BusCondition;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +18,8 @@ import java.io.Serializable;
 @Data
 @Entity
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "buses")
 public class Bus implements Serializable {
 

@@ -82,7 +82,7 @@ public class RouteController {
     @ApiOperation(value = "Update existing route by id")
     public ResponseEntity<RouteDTO> update(@PathVariable("id") long id, @RequestBody RouteDTO routeDTO) {
         if (id == routeDTO.getId()) {
-            Route route = routeService.update(routeMapper.convertToEntity(routeDTO));
+            Route route = routeService.save(routeMapper.convertToEntity(routeDTO));
             return ResponseEntity.status(OK).body(routeMapper.convertToDto(route));
         } else {
             return ResponseEntity.status(BAD_REQUEST).build();

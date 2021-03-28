@@ -73,7 +73,7 @@ public class PassengerController {
     @ApiOperation(value = "Update existing passenger by id")
     public ResponseEntity<PassengerDTO> update(@PathVariable("id") long id, @RequestBody PassengerDTO passengerDTO) {
         if (id == passengerDTO.getId()) {
-            Passenger passenger = passengerService.update(passengerMapper.convertToEntity(passengerDTO));
+            Passenger passenger = passengerService.save(passengerMapper.convertToEntity(passengerDTO));
             return ResponseEntity.status(OK).body(passengerMapper.convertToDto(passenger));
         } else {
             return ResponseEntity.status(BAD_REQUEST).build();

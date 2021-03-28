@@ -40,11 +40,6 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public Route update(Route object) {
-        return routeRepository.save(object);
-    }
-
-    @Override
     public Route save(Route object) {
         return routeRepository.save(object);
     }
