@@ -1,7 +1,6 @@
 package com.coursework.demo.service;
 
 import com.coursework.demo.entity.Luggage;
-import com.coursework.demo.entity.enums.LuggageType;
 import com.coursework.demo.repository.LuggageRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.coursework.demo.TestData.getLuggage;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -80,13 +80,5 @@ public class LuggageServiceImplTest {
 
         assertEquals(luggage, result);
         verify(luggageRepository).delete(luggage);
-    }
-
-    private Luggage getLuggage() {
-        return Luggage.builder()
-                .name("N25")
-                .luggageType(LuggageType.BIG)
-                .weight(50)
-                .build();
     }
 }

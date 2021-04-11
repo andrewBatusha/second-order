@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.coursework.demo.TestData.getRoute;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -86,12 +87,5 @@ public class RouteServiceImplTest {
 
         assertEquals(route, result);
         verify(routeRepository).delete(route);
-    }
-
-    private Route getRoute() {
-        return Route.builder()
-                .departure("Kyiv")
-                .destination("Wroclaw")
-                .build();
     }
 }

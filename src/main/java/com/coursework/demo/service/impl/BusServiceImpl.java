@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class BusServiceImpl implements BusService {
 
-    BusRepository busRepository;
+    private BusRepository busRepository;
 
     @Autowired
     public BusServiceImpl(BusRepository busRepository) {

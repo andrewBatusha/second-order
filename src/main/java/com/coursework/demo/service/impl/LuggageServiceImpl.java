@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class LuggageServiceImpl implements LuggageService {
 
-    LuggageRepository luggageRepository;
+    private LuggageRepository luggageRepository;
 
     @Autowired
     public LuggageServiceImpl(LuggageRepository luggageRepository) {

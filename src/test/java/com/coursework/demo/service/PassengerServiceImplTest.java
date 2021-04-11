@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.coursework.demo.TestData.getPassenger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -91,12 +92,5 @@ public class PassengerServiceImplTest {
 
         assertEquals(passenger, result);
         verify(passengerRepository).delete(passenger);
-    }
-
-    private Passenger getPassenger() {
-        return Passenger.builder()
-                .name("John")
-                .surname("Wick")
-                .build();
     }
 }

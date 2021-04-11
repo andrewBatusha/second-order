@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class PassengerServiceImpl implements PassengerService {
 
-    PassengerRepository passengerRepository;
+    private PassengerRepository passengerRepository;
 
     @Autowired
     public PassengerServiceImpl(PassengerRepository passengerRepository) {

@@ -1,7 +1,6 @@
 package com.coursework.demo.service;
 
 import com.coursework.demo.entity.Bus;
-import com.coursework.demo.entity.enums.BusCondition;
 import com.coursework.demo.repository.BusRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static com.coursework.demo.TestData.getBus;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -80,13 +80,5 @@ public class BusServiceImplTest {
 
         assertEquals(bus, result);
         verify(busRepository).delete(bus);
-    }
-
-    private Bus getBus() {
-        return Bus.builder()
-                .name("N25")
-                .capacity(50)
-                .status(BusCondition.ACTIVE)
-                .build();
     }
 }

@@ -20,7 +20,7 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @Service
 public class RouteServiceImpl implements RouteService {
 
-    RouteRepository routeRepository;
+    private RouteRepository routeRepository;
 
     @Autowired
     public RouteServiceImpl(RouteRepository routeRepository) {
