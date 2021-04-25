@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ public class LuggageController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get luggage info by id")
     public ResponseEntity<LuggageDTO> get(@PathVariable("id") long id) {
         Luggage luggage = luggageService.getById(id);
@@ -51,6 +53,7 @@ public class LuggageController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get the list of all luggage")
     public ResponseEntity<List<LuggageDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(luggageMapper.convertToDtoList(luggageService.getAll(pageable)));
@@ -58,6 +61,7 @@ public class LuggageController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Create new luggage")
     public ResponseEntity<LuggageDTO> save(@RequestBody AddLuggageDTO addLuggageDTO) {
         Luggage luggage = luggageService.save(luggageMapper.convertToEntity(addLuggageDTO));
@@ -65,6 +69,7 @@ public class LuggageController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update existing luggage by id")
     public ResponseEntity<LuggageDTO> update(@PathVariable("id") long id, @RequestBody LuggageDTO luggageDTO) {
         if (id == luggageDTO.getId()) {
@@ -76,6 +81,7 @@ public class LuggageController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete luggage by id")
     public ResponseEntity delete(@PathVariable("id") long id) {
         Luggage luggage = luggageService.getById(id);

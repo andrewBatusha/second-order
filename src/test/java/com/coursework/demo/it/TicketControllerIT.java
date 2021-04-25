@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -49,6 +50,7 @@ public class TicketControllerIT {
     private TicketRepository ticketRepository;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrieveTicketById() throws Exception {
         when(ticketRepository.findById(anyLong())).thenReturn(Optional.of(getTicket()));
 
@@ -58,6 +60,7 @@ public class TicketControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrieveTicketList() throws Exception {
         final Ticket ticket = getTicket();
         final List<Ticket> tickets = Collections.singletonList(ticket);
@@ -72,6 +75,7 @@ public class TicketControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testSaveTicket() throws Exception {
         final Ticket ticket = getTicket();
         final TicketDTO request = getTicketRequest();
@@ -84,6 +88,7 @@ public class TicketControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateTicket() throws Exception {
         final Ticket ticket = getTicket();
         final TicketDTO request = getTicketRequest();
@@ -96,6 +101,7 @@ public class TicketControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateTicketExpectedBadRequest() throws Exception {
         final Ticket ticket = getTicket();
         final TicketDTO request = getTicketRequest();
@@ -107,6 +113,7 @@ public class TicketControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testDeleteTicket() throws Exception {
         final Ticket ticket = getTicket();
 

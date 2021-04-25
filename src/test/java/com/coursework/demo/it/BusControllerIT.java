@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -48,6 +49,7 @@ public class BusControllerIT {
     private BusRepository busRepository;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrieveBusById() throws Exception {
         when(busRepository.findById(anyLong())).thenReturn(Optional.of(getBus()));
 
@@ -57,6 +59,7 @@ public class BusControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrieveBusesList() throws Exception {
         final Bus bus = getBus();
         final List<Bus> buses = Collections.singletonList(bus);
@@ -71,6 +74,7 @@ public class BusControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testSaveBus() throws Exception {
         final Bus bus = getBus();
         final BusDTO request = getBusRequest();
@@ -83,6 +87,7 @@ public class BusControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateBus() throws Exception {
         final Bus bus = getBus();
         final BusDTO request = getBusRequest();
@@ -95,6 +100,7 @@ public class BusControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateBusExpectedBadRequest() throws Exception {
         final Bus bus = getBus();
         final BusDTO request = getBusRequest();
@@ -106,6 +112,7 @@ public class BusControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testDeleteBus() throws Exception {
         final Bus bus = getBus();
 

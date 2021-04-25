@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -50,6 +51,7 @@ public class PassengerControllerIT {
     private PassengerRepository passengerRepository;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrievePassengerById() throws Exception {
         when(passengerRepository.findById(anyLong())).thenReturn(Optional.of(getPassenger()));
 
@@ -59,6 +61,7 @@ public class PassengerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrievePassengersListByRouteId() throws Exception {
         when(passengerRepository.getPassengersByRoute(anyLong())).thenReturn((getExpectedPassengersList()));
 
@@ -68,6 +71,7 @@ public class PassengerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrievePassengerList() throws Exception {
         final Passenger passenger = getPassenger();
         final List<Passenger> passengers = Collections.singletonList(passenger);
@@ -83,6 +87,7 @@ public class PassengerControllerIT {
 
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testSavePassenger() throws Exception {
         final Passenger passenger = getPassenger();
         final PassengerDTO request = getPassengerRequest();
@@ -95,6 +100,7 @@ public class PassengerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdatePassenger() throws Exception {
         final Passenger passenger = getPassenger();
         final PassengerDTO request = getPassengerRequest();
@@ -107,6 +113,7 @@ public class PassengerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdatePassengerExpectedBadRequest() throws Exception {
         final Passenger passenger = getPassenger();
         final PassengerDTO request = getPassengerRequest();
@@ -118,6 +125,7 @@ public class PassengerControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testDeletePassenger() throws Exception {
         final Passenger passenger = getPassenger();
 

@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -50,6 +51,7 @@ public class RouteControllerIT {
     private RouteRepository routeRepository;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrieveRouteById() throws Exception {
         when(routeRepository.findById(anyLong())).thenReturn(Optional.of(getRoute()));
 
@@ -59,6 +61,7 @@ public class RouteControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrieveRouteList() throws Exception {
         final Route route = getRoute();
         final List<Route> routes = Collections.singletonList(route);
@@ -73,6 +76,7 @@ public class RouteControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testSaveRoute() throws Exception {
         final Route route = getRoute();
         final RouteDTO request = getRouteRequest();
@@ -85,6 +89,7 @@ public class RouteControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateRoute() throws Exception {
         final Route route = getRoute();
         final RouteDTO request = getRouteRequest();
@@ -97,6 +102,7 @@ public class RouteControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateRouteExpectedBadRequest() throws Exception {
         final Route route = getRoute();
         final RouteDTO request = getRouteRequest();
@@ -108,6 +114,7 @@ public class RouteControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testDeleteRoute() throws Exception {
         final Route route = getRoute();
 

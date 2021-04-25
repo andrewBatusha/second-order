@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ public class TicketController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get ticket info by id")
     public ResponseEntity<TicketDTO> get(@PathVariable("id") long id){
         Ticket ticket = ticketService.getById(id);
@@ -51,6 +53,7 @@ public class TicketController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get the list of all tickets")
     public ResponseEntity<List<TicketDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(ticketMapper.convertToDtoList(ticketService.getAll(pageable)));
@@ -58,6 +61,7 @@ public class TicketController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Create new ticket")
     public ResponseEntity<TicketDTO> save(@RequestBody AddTicketDTO addTicketDTO) {
         Ticket ticket = ticketService.save(ticketMapper.convertToEntity(addTicketDTO));
@@ -65,6 +69,7 @@ public class TicketController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update existing ticket by id")
     public ResponseEntity<TicketDTO> update(@PathVariable("id") long id, @RequestBody TicketDTO ticketDTO) {
         if (id == ticketDTO.getId()) {
@@ -76,6 +81,7 @@ public class TicketController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete ticket by id")
     public ResponseEntity delete(@PathVariable("id") long id){
         Ticket ticket = ticketService.getById(id);

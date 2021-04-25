@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -49,6 +50,7 @@ public class LuggageControllerIT {
     private LuggageRepository luggageRepository;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrieveLuggageById() throws Exception {
         when(luggageRepository.findById(anyLong())).thenReturn(Optional.of(getLuggage()));
 
@@ -58,6 +60,7 @@ public class LuggageControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testRetrieveLuggageList() throws Exception {
         final Luggage luggage = getLuggage();
         final List<Luggage> luggages = Collections.singletonList(luggage);
@@ -72,6 +75,7 @@ public class LuggageControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testSaveLuggage() throws Exception {
         final Luggage luggage = getLuggage();
         final LuggageDTO request = getLuggageRequest();
@@ -84,6 +88,7 @@ public class LuggageControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateLuggage() throws Exception {
         final Luggage luggage = getLuggage();
         final LuggageDTO request = getLuggageRequest();
@@ -96,6 +101,7 @@ public class LuggageControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testUpdateLuggageExpectedBadRequest() throws Exception {
         final Luggage luggage = getLuggage();
         final LuggageDTO request = getLuggageRequest();
@@ -107,6 +113,7 @@ public class LuggageControllerIT {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     public void testDeleteLuggage() throws Exception {
         final Luggage luggage = getLuggage();
 

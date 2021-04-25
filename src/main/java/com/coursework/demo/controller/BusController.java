@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ public class BusController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get bus info by id")
     public ResponseEntity<BusDTO> get(@PathVariable("id") long id) {
         Bus bus = busService.getById(id);
@@ -51,6 +53,7 @@ public class BusController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get the list of all buses")
     public ResponseEntity<List<BusDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(busMapper.convertToDtoList(busService.getAll(pageable)));
@@ -58,6 +61,7 @@ public class BusController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Create new bus")
     public ResponseEntity<BusDTO> save(@RequestBody AddBusDTO addBusDTO) {
         Bus bus = busService.save(busMapper.convertToEntity(addBusDTO));
@@ -65,6 +69,7 @@ public class BusController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update existing bus by id")
     public ResponseEntity<BusDTO> update(@PathVariable("id") long id, @RequestBody BusDTO busDTO) {
         if (id == busDTO.getId()) {
@@ -76,6 +81,7 @@ public class BusController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete bus by id")
     public ResponseEntity delete(@PathVariable("id") long id) {
         Bus bus = busService.getById(id);

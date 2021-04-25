@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +48,7 @@ public class RouteController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get route info by id")
     public ResponseEntity<RouteDTO> get(@PathVariable("id") long id) {
         Route route = routeService.getById(id);
@@ -55,6 +57,7 @@ public class RouteController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get the list of all routes")
     public ResponseEntity<List<RouteDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
                                                @RequestParam(required = false, defaultValue = "") @ApiParam(
@@ -72,6 +75,7 @@ public class RouteController {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Create new route")
     public ResponseEntity<RouteDTO> save(@RequestBody AddRouteDTO routeDTO) {
         Route route = routeService.save(routeMapper.convertToEntity(routeDTO));
@@ -79,6 +83,7 @@ public class RouteController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update existing route by id")
     public ResponseEntity<RouteDTO> update(@PathVariable("id") long id, @RequestBody RouteDTO routeDTO) {
         if (id == routeDTO.getId()) {
@@ -90,6 +95,7 @@ public class RouteController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete route by id")
     public ResponseEntity delete(@PathVariable("id") long id) {
         Route route = routeService.getById(id);

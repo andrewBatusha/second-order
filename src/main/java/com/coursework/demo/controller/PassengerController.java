@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ public class PassengerController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get passenger info by id")
     public ResponseEntity<PassengerDTO> get(@PathVariable("id") long id) {
         Passenger passenger = passengerService.getById(id);
@@ -51,18 +53,21 @@ public class PassengerController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get the list of all passengers")
     public ResponseEntity<List<PassengerDTO>> list(@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok().body(passengerMapper.convertToDtoList(passengerService.getAll(pageable)));
     }
 
     @GetMapping("/routes/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN, USER')")
     @ApiOperation(value = "Get the list of all passengers in specific route")
     public ResponseEntity<List<PassengerDTO>> list(@PathVariable("id") long id) {
         return ResponseEntity.ok().body(passengerMapper.convertToDtoList(passengerService.getPassengersByRoute(id)));
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Create new passenger")
     public ResponseEntity<PassengerDTO> save(@RequestBody AddPassengerDTO addPassengerDTO) {
         Passenger passenger = passengerService.save(passengerMapper.convertToEntity(addPassengerDTO));
@@ -70,6 +75,7 @@ public class PassengerController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update existing passenger by id")
     public ResponseEntity<PassengerDTO> update(@PathVariable("id") long id, @RequestBody PassengerDTO passengerDTO) {
         if (id == passengerDTO.getId()) {
@@ -81,6 +87,7 @@ public class PassengerController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete passenger by id")
     public ResponseEntity delete(@PathVariable("id") long id) {
         Passenger passenger = passengerService.getById(id);
