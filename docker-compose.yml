@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  app:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      - DATASOURCE_URL=jdbc:postgresql://db:5432/buses
+      - DATASOURCE_USERNAME=postgres
+      - DATASOURCE_PASSWORD=root
+      - JPA_HIBERNATE_DDL_AUTO=update
+      - JWT_SECRET=my-super-secret
+      - JWT_EXPIRATION=600000
+    ports:
+      - 8086:8080
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_DB=buses
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    ports:
+      - 5432:5432
